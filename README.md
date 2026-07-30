@@ -115,15 +115,16 @@ I compared a hand-set baseline against Optuna/TPE tuning. Earlier broad tuning o
 The tuned model was developed through a staged search process designed to push performance below the strict 10 BPM project target:
 
 1. **Phase 1 (Broad Exploration)**: 30 trials with broad perturbations (±10% relative to baseline on most parameters) improved the initial untuned baseline from 14.347 BPM to 12.388 MAE@90. This phase established a stronger core configuration by exploring the parameter space around hand-set defaults.
-2. **Phase 2 (Refinement)**: 40 trials with tighter perturbations (±10–15% relative to phase-1 best) further refined the best candidate by focusing on motion suppression and harmonic tolerance settings, reaching the high-9 BPM range.
-3. **Post-Phase Exploratory Pass**: an additional 200-trial aggressive search (with wider perturbations on continuity/confidence controls) was run as a follow-up pass. This exploratory stage found a stronger parameter set with **MAE@90 = 8.794 BPM**.
+2. **Phase 2 (Refinement)**: 80 trials with tighter perturbations (±10–15% relative to phase-1 best) further refined the best candidate by focusing on motion suppression and harmonic tolerance settings, reaching the high-8 BPM range.
 
-Total search budget used in this notebook: 270 trials (70 structured phase trials + 200 exploratory follow-up trials), each evaluated on the full Troika dataset.
+3. **Post-Phase Exploratory Pass**: an additional 200-trial aggressive search (with wider perturbations on continuity/confidence controls) was run as a follow-up pass. This exploratory stage found a stronger parameter set with **MAE@90 = 8.771 BPM**.
+
+Total search budget used in this notebook: 310 trials (110 structured phase trials + 200 exploratory follow-up trials), each evaluated on the full Troika dataset.
 
 On the final executed run in this notebook, the algorithm is evaluated on the full Troika dataset using the frozen `BEST_PARAMS` configuration:
 
-- Overall MAE@90: 8.794 BPM (full dataset evaluation)
-- Improvement from baseline: 14.347 → 8.794 BPM (38.7% reduction)
+- Overall MAE@90: 8.771 BPM (full dataset evaluation)
+- Improvement from baseline: 14.347 → 8.771 BPM (38.8% reduction)
 
 This tuned model now meets both the stricter project target (MAE@90 below 10 BPM) and the classroom threshold (15 BPM). The improvement mainly comes from stronger motion suppression, tighter motion-conflict handling, and wider harmonic tolerance under heavy movement.
 
@@ -134,8 +135,8 @@ To make model behavior easier to inspect, the notebook includes a diagnostics ce
 - accelerometer magnitude together with confidence over time
 
 The same diagnostics section computes activity-wise performance (grouped by Troika trial type parsed from filenames):
-- TYPE01: MAE about 22.24 BPM, MAE@90 about 22.71 BPM
-- TYPE02: MAE about 9.30 BPM, MAE@90 about 9.05 BPM
+- TYPE01: MAE about 22.61 BPM, MAE@90 about 22.98 BPM
+- TYPE02: MAE about 9.33 BPM, MAE@90 about 8.77 BPM
 
 This indicates that the tuned model strongly improves TYPE02 performance, while TYPE01 remains a challenging regime with heavier residual motion interference.
 
@@ -172,8 +173,8 @@ These numbers come from different evaluation worlds, so they are not directly co
 - The `Evaluate()` result in the project notebook is computed on the local Troika training set available in the workspace.
 - If data distributions differ, the same model can score worse locally but better on the hidden grader, or vice versa.
 
-2. Why a local score (8.794) does not override a prior failed grader score:
-- The 8.794 value is a local training-dataset metric.
+2. Why a local score (8.771) does not override a prior failed grader score:
+- The 8.771 value is a local training-dataset metric.
 - Therefore local performance is useful evidence, but hidden-test output is authoritative for pass/fail.
 
 ### The Unit Test version improves hidden-test performance
@@ -186,7 +187,7 @@ This implementation matches the dataset cadence used by the test setup (8-second
 
 - 10.29 failed for the earlier submission state.
 - 3.79 passed for the current submission state.
-- 8.794 is informative for local analysis, but it is not the grading metric.
+- 8.771 is informative for local analysis, but it is not the grading metric.
 
 -----
 
@@ -206,7 +207,7 @@ The data from this project comes from the [Cardiac Arrythmia Suppression Trial (
 
 ### Clinical Conclusion
 
-This Part 2 analysis uses 24-hour CAST heart-rate time series as the pulse-rate signal and computes resting heart rate as the 5th percentile per subject. The Part 1 estimator was independently tuned to MAE@90 = 8.794 BPM, and this clinical step focuses on population-level trend analysis.
+This Part 2 analysis uses 24-hour CAST heart-rate time series as the pulse-rate signal and computes resting heart rate as the 5th percentile per subject. The Part 1 estimator was independently tuned to MAE@90 = 8.771 BPM, and this clinical step focuses on population-level trend analysis.
 
 ![CAST Resting Heart Rate by Age and Sex](part_2/trend.png)
 
