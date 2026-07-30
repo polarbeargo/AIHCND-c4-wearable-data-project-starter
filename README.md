@@ -72,9 +72,9 @@ The implementation uses the parsed PPG channel from the provided starter loader 
 Use the following execution procedure to reproduce results (use tuned `BEST_PARAMS` from [commit refactor: Improve motion-robust HR estimation and confidence scoring to meet MAE@90 target](https://github.com/polarbeargo/AIHCND-c4-wearable-data-project-starter/blob/9ea15b2f0b0953da42c9ce19a6bb3b60cc7cf61a/part_1/pulse_rate_starter.ipynb)) in this notebook:
 
 1. Ensure the Troika training files exist at `part_1/datasets/troika/training_data` (this folder should contain matching `DATA_*.mat` and `REF_*.mat` files).
-2. Open `part_1/pulse_rate_starter.ipynb` and run cells in dependency order: run top-to-bottom through Cell 5, then run Cell 8 before Cell 7 (Cell 7 uses `evaluate_params` defined in Cell 8) and cell 11 then run cell 6 in the end.
-3. Run from the `part_1` context so the relative path `./datasets/troika/training_data` resolves correctly.
-4. Confirm dependencies are available (`numpy`, `scipy`, `matplotlib`, `pandas`), then execute the main algorithm cell.
+2. Run from the `part_1` context so the relative path `./datasets/troika/training_data` resolves correctly.
+3. Confirm dependencies are available (`numpy`, `scipy`, `matplotlib`, `pandas`), then execute the main algorithm cell.
+4. Open `part_1/pulse_rate_starter.ipynb` and run all cells from top-to-bottom.
 
 Exact invocation examples:
 
